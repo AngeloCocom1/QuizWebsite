@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joke Display</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="main">
+        <header class="header">
+            <a href="index.html" class="logo">SET08101</a>
+
+            <nav class="navbar">
+                <a href="index.html" class="active">Home</a>
+                <a href="jokes.html">jokes</a>
+            </nav>
+        </header>
+
+        <div class="joke-container">
+            <h2>Random Joke</h2>
+            <p id="joke-text"></p>
+            <button id="new-joke-btn">Get New Joke</button>
+        </div>
+
+        <audio id="joke-audio" src="badumtss.mp3"></audio> <!-- Add your audio file path here -->
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="social-links">
+                <a href="https://www.facebook.com">
+                    <img src="facebookicon.png" alt="Facebook">
+                </a>
+                <a href="https://github.com/AngeloCocom1/QuizWebsite">
+                    <img src="githubicon.png" alt="GitHub">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        // Function to fetch a random joke from the Chuck Norris Jokes API
+        async function fetchRandomJoke() {
+            try {
+                const response = await axios.get('https://api.chucknorris.io/jokes/random');
+                return response.data.value;
+            } catch (error) {
+                console.error('Error fetching random joke:', error);
+                return 'Oops! Failed to fetch joke.';
+            }
+        }
+
+        // Function to display the random joke on the web page
+        async function displayRandomJoke() {
+            const jokeContainer = document.querySelector('.joke-container');
+            const jokeText = document.getElementById('joke-text');
+            const newJokeBtn = document.getElementById('new-joke-btn');
+            const jokeAudio = document.getElementById('joke-audio');
+
+            // Fetch a random joke
+            const joke = await fetchRandomJoke();
+
+            // Update the joke text on the web page
+            jokeText.textContent = joke;
+
+            // Play the joke audio
+            jokeAudio.play();
+        }
+
+        // Event listener for the "Get New Joke" button
+        document.getElementById('new-joke-btn').addEventListener('click', displayRandomJoke);
+
+        // Display a random joke when the page loads
+        displayRandomJoke();
+    </script>
+</body>
+
+</html>
